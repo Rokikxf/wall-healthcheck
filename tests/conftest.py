@@ -15,3 +15,9 @@ def schema():
 @pytest.fixture(scope="session")
 def validator(schema):
     return Draft202012Validator(schema, format_checker=Draft202012Validator.FORMAT_CHECKER)
+
+
+@pytest.fixture(scope="session")
+def example():
+    """Load an output example from tests/fixtures by file name, e.g. example("ok.json")."""
+    return lambda name: json.loads((ROOT / "tests" / "fixtures" / name).read_text(encoding="utf-8"))

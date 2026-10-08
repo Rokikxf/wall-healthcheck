@@ -29,8 +29,15 @@ jobs:
           ruff check .
           ruff format --check .
 
+      - name: Allow unprivileged ICMP (ping sockets)
+        run: |
+          sudo sysctl -w net.ipv4.ping_group_range="0 2147483647"
+
       - name: Test
         run: pytest
+        env:
+          # Ping sockets are allowed above: fail rather than skip the ICMP tests.
+          WALL_HEALTHCHECK_REQUIRE_ICMP: "1"
 
       - name: Tag matches package version
         if: startsWith(github.ref, 'refs/tags/v')

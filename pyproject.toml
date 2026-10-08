@@ -3,9 +3,9 @@ requires = ["hatchling>=1.27"]
 build-backend = "hatchling.build"
 
 [project]
-name = "wall-template"
+name = "wall-healthcheck"
 dynamic = ["version"]
-description = "Template for wall-* command-line tools."
+description = "Checks whether hosts answer ping or a TCP port, and how fast."
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = []
@@ -19,10 +19,10 @@ dev = [
 ]
 
 [project.scripts]
-wall-template = "wall_template.cli:main"
+wall-healthcheck = "wall_healthcheck.cli:main"
 
 [tool.hatch.version]
-path = "src/wall_template/__init__.py"
+path = "src/wall_healthcheck/__init__.py"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
