@@ -3,8 +3,9 @@
 ICMP uses Linux "ping sockets" (SOCK_DGRAM with IPPROTO_ICMP), which need no
 root. The kernel fills in the echo identifier and the checksum, and delivers to
 each socket only the replies to its own requests. A process may open one only
-if its group is in net.ipv4.ping_group_range, which current Ubuntu allows for
-all groups. Other systems are not supported for ICMP; TCP checks work anywhere.
+if its group is in net.ipv4.ping_group_range. Ubuntu Server 24.04 disables this
+by default ("1 0"), so it has to be allowed first (see README). Other systems
+are not supported for ICMP; TCP checks work anywhere.
 """
 
 import asyncio

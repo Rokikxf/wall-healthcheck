@@ -52,13 +52,16 @@ but the service on that port is not.
 ## Ping without root
 
 Ping uses Linux *ping sockets*, which need no root and no capabilities. The
-kernel only allows them for the groups in `net.ipv4.ping_group_range`.
-Current Ubuntu allows every group (`0 2147483647`). If yours does not, the run
-fails with error code `icmp_not_permitted`. To allow it:
+kernel only allows them for the groups in `net.ipv4.ping_group_range`. Ubuntu
+Server 24.04 ships with them **disabled** (`1 0`), because its own `ping` uses
+file capabilities instead; other distributions differ. Check with
+`sysctl net.ipv4.ping_group_range`. When ping sockets are disabled, the run fails
+with error code `icmp_not_permitted`. To allow them for all groups, now and
+after reboots:
 
 ```bash
-sudo sysctl -w net.ipv4.ping_group_range="0 2147483647"   # until reboot
 echo 'net.ipv4.ping_group_range = 0 2147483647' | sudo tee /etc/sysctl.d/60-ping.conf
+sudo sysctl -p /etc/sysctl.d/60-ping.conf
 ```
 
 The implementation is in [probes.py](src/wall_healthcheck/probes.py). It builds
